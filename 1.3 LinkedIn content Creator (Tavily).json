@@ -1,0 +1,360 @@
+{
+  "name": "1.3 LinkedIn content Creator (Tavily)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -32,
+        0
+      ],
+      "id": "af3ef747-17c5-451a-94a0-ce6ce5611fa3",
+      "name": "Schedule Trigger",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        208
+      ],
+      "id": "173c3d45-8b51-4478-adc6-7671d69d610b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "## AI Agent Prompt Architect GPT \nCreate a System prompts for an agent That is given 3 articles and needs to create a concise, Professional linkedin post. It should be written in an inspiring tone and use relevant hashtag and emojis. ",
+        "height": 128,
+        "width": 512,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        496,
+        32
+      ],
+      "id": "b21abeb5-3143-495b-b375-5bc27c44f7d9",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1RoKreUWhZmzKKh4OxhxCAq2O4iyYrV3EY7wmpbITYUk",
+          "mode": "list",
+          "cachedResultName": "1.3 LinkedIn Content Creator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RoKreUWhZmzKKh4OxhxCAq2O4iyYrV3EY7wmpbITYUk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RoKreUWhZmzKKh4OxhxCAq2O4iyYrV3EY7wmpbITYUk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Topic": "={{ $('Get First Matching Row : To Do').item.json.Topic }}",
+            "Status": "Created",
+            "Content": "={{ $json.output }}"
+          },
+          "matchingColumns": [
+            "Topic"
+          ],
+          "schema": [
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        976,
+        208
+      ],
+      "id": "bc83c3cb-eaee-4ae6-944c-9bd7e5780c64",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "r5dJyl6N7Nvh7Os3",
+          "name": "Google Sheets AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1RoKreUWhZmzKKh4OxhxCAq2O4iyYrV3EY7wmpbITYUk",
+          "mode": "list",
+          "cachedResultName": "1.3 LinkedIn Topics",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RoKreUWhZmzKKh4OxhxCAq2O4iyYrV3EY7wmpbITYUk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RoKreUWhZmzKKh4OxhxCAq2O4iyYrV3EY7wmpbITYUk/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "To Do"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        208
+      ],
+      "id": "ee8d02f6-bead-4706-99b9-404008387ffb",
+      "name": "Get First Matching Row : To Do",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "r5dJyl6N7Nvh7Os3",
+          "name": "Google Sheets AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"Search the web for {{ $json.Topic }}\",\n  \"topic\": \"general\",\n  \"search_depth\": \"basic\",\n  \"chunks_per_source\": 3,\n  \"max_results\": 3,\n  \"time_range\": null,\n  \"days\": 7,\n  \"include_answer\": true,\n  \"include_raw_content\": false,\n  \"include_images\": false,\n  \"include_image_descriptions\": false,\n  \"include_domains\": [],\n  \"exclude_domains\": []\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        416,
+        208
+      ],
+      "id": "8d79fdd4-38dc-436e-b98e-8e99e2ef2510",
+      "name": "Tavily : Search Web (Content)",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GDg1hzKpkf1SuQ5d",
+          "name": "Tavily Credentials AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-3.5-sonnet",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        624,
+        400
+      ],
+      "id": "7ff22011-e45c-4cdd-ae18-11ce8bcc0a62",
+      "name": "claude-3.5-sonnet",
+      "credentials": {
+        "openRouterApi": {
+          "id": "czIsN4rd8sIKdRuL",
+          "name": "OpenRouter AIS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## claude-3.5-sonnet\n\n- is very good at writing Content\n",
+        "height": 128,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        560,
+        544
+      ],
+      "id": "01d278c8-02cc-4243-8447-9a7c59bdfc1d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Article 1 : {{ $json.results[0].content }}\nArticle 2: {{ $json.results[1].content }}\nArticle 3: {{ $json.results[2].content }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an AI agent responsible for creating concise, professional LinkedIn posts based on three provided articles. The post should be inspiring, easy to read, and aligned with LinkedIn’s professional community standards.\n\n## Context\n- The agent will always receive three articles on related topics.\n- The LinkedIn post must summarize and connect key insights from these articles into one cohesive message.\n- The tone should be professional, inspiring, and thought-leadership oriented.\n- Posts should encourage engagement and reflect current trends in the field.\n\n## Instructions\n1. Read and analyze the three provided articles.\n2. Identify a common theme or takeaway that unites the articles.\n3. Craft a concise LinkedIn post (100–180 words) summarizing the insights.\n4. Use an inspiring tone with forward-looking language.\n5. Include 3–5 relevant hashtags.\n6. Add 1–3 relevant emojis that enhance readability without overuse.\n7. Ensure the writing is polished, professional, and audience-focused.\n\n## Examples\n- Input: Three articles about AI’s role in healthcare.\n- Output:  \n\"AI is not just transforming industries—it’s saving lives. From early disease detection to personalized treatment plans, the healthcare sector is witnessing a revolution powered by intelligent technology. These breakthroughs highlight a powerful truth: when innovation meets purpose, the results are extraordinary. 🌍💡  \n#AI #HealthcareInnovation #FutureOfWork\"\n\n## SOP (Standard Operating Procedure)\n1. Read all three articles and extract 2–3 main insights.\n2. Identify a unifying theme that ties the articles together.\n3. Draft a LinkedIn post in 2–3 short paragraphs.\n4. Add 3–5 relevant hashtags.\n5. Insert 1–3 fitting emojis at impactful points.\n6. Review for clarity, tone, and conciseness before finalizing.\n\n## Final Notes\n- Avoid jargon or overly technical language.\n- Do not exceed 180 words.\n- Always maintain a positive, forward-looking, and professional tone.\n- Ensure hashtags are relevant, not generic.\n---"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        208
+      ],
+      "id": "a4228b4d-1da0-4aa0-b5a2-a9dea7326bd2",
+      "name": "LinkedIn Post Architect"
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        208
+      ],
+      "id": "f6cc28bc-c65b-4c8f-b294-9ae9630093a4",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "rErQ2AsNVpGf2GbX",
+          "name": "LinkedIn account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get First Matching Row : To Do",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get First Matching Row : To Do": {
+      "main": [
+        [
+          {
+            "node": "Tavily : Search Web (Content)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily : Search Web (Content)": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn Post Architect",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "claude-3.5-sonnet": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LinkedIn Post Architect",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn Post Architect": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "273cf805-a7d6-48e0-8c01-f9224c036b64",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "91f42292365f2736b62ea45ddfd531a5d9a185f2bc4a363bfb1ae1188ac76851"
+  },
+  "id": "JP80dmqmIx5InSNz",
+  "tags": []
+}
